@@ -3,7 +3,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 	                    http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-	                    
+
 	<display-name>Graduation project - HiService</display-name>
+
+	<!-- 指定spring配置文件（默认为/WEB-INF/applicationContext.xml） -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:spring-data-jpa.xml
+		</param-value>
+	</context-param>
+	<!-- 使用ContextLoaderListener初始化spring容器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 配置Spring MVC分发器 -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<!-- 指定Spring MVC配置文件（默认为/WEB-INF/<servlet-name>-servlet.xml） -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:spring.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 
 </web-app>
