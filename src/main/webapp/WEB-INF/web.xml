@@ -10,7 +10,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:spring-data-jpa.xml
+			classpath:applicationContext.xml,
+			classpath:applicationContext-jpa.xml
 		</param-value>
 	</context-param>
 	<!-- 使用ContextLoaderListener初始化spring容器 -->
@@ -26,7 +27,7 @@
 			<!-- 指定Spring MVC配置文件（默认为/WEB-INF/<servlet-name>-servlet.xml） -->
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				classpath:spring.xml
+				classpath:applicationContext-mvc.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

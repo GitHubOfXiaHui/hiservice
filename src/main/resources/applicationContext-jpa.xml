@@ -37,6 +37,20 @@
 		<!-- 基本配置 -->
 		<property name="jpaProperties">
 			<map>
+				<entry key="hibernate.current_session_context_class" value="thread" />
+
+				<!-- 抓取策略 -->
+				<entry key="hibernate.max_fetch_depth" value="1" />
+				<entry key="hibernate.default_batch_fetch_size " value="4" />
+				<entry key="hibernate.jdbc.fetch_size" value="30" />
+				<entry key="hibernate.jdbc.batch_size" value="50" />
+
+				<!-- 缓存 -->
+				<entry key="hibernate.cache.use_second_level_cache" value="true" />
+				<entry key="hibernate.cache.use_query_cache" value="true" />
+				<entry key="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
+				<entry key="net.sf.ehcache.configurationResourceName" value="hibernate-ehcache.xml" />
+
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 				<entry key="hibernate.show_sql" value="true" />
 				<entry key="hibernate.format_sql" value="false" />
@@ -61,8 +75,5 @@
 		<property name="generateDdl" value="true" />
 		<property name="database" value="MYSQL" />
 	</bean>
-
-	<!-- 属性占位符配置器 -->
-	<context:property-placeholder location="classpath:dataSource.properties" />
 
 </beans>
