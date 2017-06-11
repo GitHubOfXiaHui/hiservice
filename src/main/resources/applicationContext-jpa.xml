@@ -33,7 +33,7 @@
 		<!-- 适配器 -->
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 		<!-- 注册实体bean -->
-		<property name="packagesToScan" value="com.bupt.hiservice.domain" />
+		<property name="packagesToScan" value="com.bupt.hiservice.entity" />
 		<!-- 基本配置 -->
 		<property name="jpaProperties">
 			<map>
