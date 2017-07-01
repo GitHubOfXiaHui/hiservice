@@ -1,5 +1,11 @@
 package com.bupt.hiservice.controller.post;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +27,7 @@ public class EncryptedPostController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public EncryptedPost create(@RequestBody EncryptedPostReqVo encryptedPostReqVo) {
+	public EncryptedPost create(@RequestBody EncryptedPostReqVo encryptedPostReqVo) throws InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
 		return encryptedPostService.saveEncryptedPost(encryptedPostReqVo);
 	}
 }

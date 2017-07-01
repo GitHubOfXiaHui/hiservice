@@ -18,9 +18,13 @@ public class EncryptedPostKeyword extends IdLongEntity {
 
 	@Column
 	private String keyword;
-	
+
+	// 关键词得分
+	@Column
+	private float score;
+
 	@Column(name = "post_id")
-	private Long postId;
+	private String postId;
 
 	public String getKeyword() {
 		return keyword;
@@ -30,12 +34,20 @@ public class EncryptedPostKeyword extends IdLongEntity {
 		this.keyword = keyword;
 	}
 
-	public Long getPostId() {
+	public float getScore() {
+		return score;
+	}
+
+	public void setScore(float score) {
+		this.score = score;
+	}
+
+	public String getPostId() {
 		return postId;
 	}
 
-	public void setPostId(Long postId) {
+	public void setPostId(String postId) {
 		this.postId = postId;
 	}
-	
+
 }
