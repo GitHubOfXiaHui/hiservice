@@ -7,47 +7,29 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.bupt.hiservice.entity.IdLongEntity;
+import com.bupt.hiservice.entity.Keyword;
 
 @Entity
 @Table(name = "post_keyword")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "com.bupt.hiservice.entity.post")
-public class EncryptedPostKeyword extends IdLongEntity {
+public class PostKeyword extends Keyword {
 
 	private static final long serialVersionUID = -3307129124410202083L;
 
-	@Column
-	private String keyword;
-
-	// 关键词得分
-	@Column
-	private float score;
-
 	@Column(name = "post_id")
-	private String postId;
+	private Long postId;
 
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-
-	public float getScore() {
-		return score;
-	}
-
-	public void setScore(float score) {
-		this.score = score;
-	}
-
-	public String getPostId() {
+	public Long getPostId() {
 		return postId;
 	}
 
-	public void setPostId(String postId) {
+	public void setPostId(Long postId) {
 		this.postId = postId;
+	}
+
+	@Override
+	public String toString() {
+		return "PostKeyword [postId=" + postId + ", value=" + value + ", salt=" + salt + ", id=" + id + "]";
 	}
 
 }
