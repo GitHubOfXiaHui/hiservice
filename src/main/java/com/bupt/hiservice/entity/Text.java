@@ -1,11 +1,9 @@
-package com.bupt.hiservice.entity.post;
+package com.bupt.hiservice.entity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.Type;
-
-import com.bupt.hiservice.entity.IdLongEntity;
 
 @MappedSuperclass
 public abstract class Text extends IdLongEntity {
@@ -17,7 +15,7 @@ public abstract class Text extends IdLongEntity {
 
 	@Column
 	@Type(type = "yes_no")
-	protected Boolean expired;
+	protected Boolean expired = false;
 
 	public String getValue() {
 		return value;
