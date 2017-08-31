@@ -12,4 +12,7 @@ public interface PostDAO extends JpaRepository<Post, Long> {
 	@Query(value = "select p from Post p where p.expired = false and p.id in ?1", countQuery = "select count(p) from Post p where p.expired = false and p.id in ?1")
 	Page<Post> findByIds(Iterable<Long> ids, Pageable page);
 
+	@Query(value = "select p from Post p where p.expired = false", countQuery = "select count(p) from Post p where p.expired = false")
+	Page<Post> findAll(Pageable page);
+
 }

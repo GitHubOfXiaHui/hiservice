@@ -22,8 +22,12 @@ import com.bupt.clientsdk.dto.page.PageUtils;
 import com.bupt.clientsdk.dto.post.PostCreateReqDTO;
 import com.bupt.clientsdk.dto.post.PostCreateResDTO;
 import com.bupt.clientsdk.dto.post.PostDTO;
+import com.bupt.clientsdk.dto.post.PostDeleteReqDTO;
+import com.bupt.clientsdk.dto.post.PostDeleteResDTO;
 import com.bupt.clientsdk.dto.post.PostFindReqDTO;
 import com.bupt.clientsdk.dto.post.PostFindResDTO;
+import com.bupt.clientsdk.dto.post.PostGetReqDTO;
+import com.bupt.clientsdk.dto.post.PostGetResDTO;
 import com.bupt.hiservice.dao.PostDAO;
 import com.bupt.hiservice.dao.PostKeywordDAO;
 import com.bupt.hiservice.entity.post.Post;
@@ -33,10 +37,10 @@ import com.bupt.hiservice.service.post.PostService;
 @Service
 @Transactional(readOnly = true)
 public class PostServiceImpl implements PostService {
-	
+
 	@Autowired
 	private PostDAO postDAO;
-	
+
 	@Autowired
 	private PostKeywordDAO postKeywordDAO;
 
@@ -48,7 +52,7 @@ public class PostServiceImpl implements PostService {
 		Post post = new Post();
 		post.setValue(req.getPost().getText());
 		post = postDAO.saveAndFlush(post);
-		
+
 		// 保存帖子关键词索引
 		Set<KeywordDTO> keywords = req.getKeywords();
 		Collection<PostKeyword> postKeywords = new ArrayList<>();
@@ -62,7 +66,7 @@ public class PostServiceImpl implements PostService {
 		postKeywordDAO.save(postKeywords);
 		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostCreateResDTO.class);
 	}
-	
+
 	@Override
 	public PostFindResDTO findPosts(PostFindReqDTO req) throws Exception {
 		// TODO Auto-generated method stub
@@ -74,10 +78,10 @@ public class PostServiceImpl implements PostService {
 		} else {
 			page = findAll(PageUtils.createPageable(dwzPage));
 		}
-		
+
 		return buildPostFindResDTO(page, dwzPage);
 	}
-	
+
 	private Page<Post> findAll(Pageable page) {
 		// TODO Auto-generated method stub
 		return postDAO.findAll(page);
@@ -106,13 +110,32 @@ public class PostServiceImpl implements PostService {
 			postDTOs.add(postDTO);
 		}
 		PageUtils.injectPageProperties(dwzPage, page);
-		
+
 		PostFindResDTO response = BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostFindResDTO.class);
 		response.setPosts(postDTOs);
 		response.setPage(dwzPage);
 		return response;
 	}
 
+	@Transactional
+	@Override
+	public PostDeleteResDTO deletePost(PostDeleteReqDTO req) throws Exception {
+		// TODO Auto-generated method stub
+		Post post = postDAO.findOne(req.getId());
+		post.setExpired(true);
+		postDAO.save(post);
+		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostDeleteResDTO.class);
+	}
+
+	@Override
+	public PostGetResDTO getPost(PostGetReqDTO req) throws Exception {
+		// TODO Auto-generated method stub
+		Post post = postDAO.getOne(req.getId());
+		PostGetResDTO response = BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostGetResDTO.class);
+		response.setPost(new PostDTO(post.getId(), post.getValue()));
+		return response;
+	}
+
 	private static final ThreadLocalRandom RAN = ThreadLocalRandom.current();
-	
+
 }
