@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bupt.clientsdk.dto.post.PostCreateReqDTO;
 import com.bupt.clientsdk.dto.post.PostCreateResDTO;
+import com.bupt.clientsdk.dto.post.PostFindReqDTO;
+import com.bupt.clientsdk.dto.post.PostFindResDTO;
 import com.bupt.hiservice.service.post.PostService;
 
 @RestController
 @RequestMapping("/post")
 public class PostController {
-	
+
 	@Autowired
 	private PostService postService;
 
@@ -23,5 +25,11 @@ public class PostController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public PostCreateResDTO create(@RequestBody PostCreateReqDTO req) throws Exception {
 		return postService.savePost(req);
+	}
+
+	@RequestMapping(value = "/find", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public PostFindResDTO find(@RequestBody PostFindReqDTO req) throws Exception {
+		return postService.findPosts(req);
 	}
 }
