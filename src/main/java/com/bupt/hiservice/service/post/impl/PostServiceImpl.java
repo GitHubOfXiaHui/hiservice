@@ -28,6 +28,8 @@ import com.bupt.clientsdk.dto.post.PostFindReqDTO;
 import com.bupt.clientsdk.dto.post.PostFindResDTO;
 import com.bupt.clientsdk.dto.post.PostGetReqDTO;
 import com.bupt.clientsdk.dto.post.PostGetResDTO;
+import com.bupt.clientsdk.dto.post.PostUpdateReqDTO;
+import com.bupt.clientsdk.dto.post.PostUpdateResDTO;
 import com.bupt.hiservice.dao.PostDAO;
 import com.bupt.hiservice.dao.PostKeywordDAO;
 import com.bupt.hiservice.entity.post.Post;
@@ -47,7 +49,6 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public PostCreateResDTO savePost(PostCreateReqDTO req) throws Exception {
-		// TODO Auto-generated method stub
 		// 保存帖子
 		Post post = new Post();
 		post.setValue(req.getPost().getText());
@@ -69,7 +70,6 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostFindResDTO findPosts(PostFindReqDTO req) throws Exception {
-		// TODO Auto-generated method stub
 		Set<String> keywords = req.getKeywords();
 		DWZPage dwzPage = req.getPage();
 		Page<Post> page;
@@ -83,12 +83,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Page<Post> findAll(Pageable page) {
-		// TODO Auto-generated method stub
 		return postDAO.findAll(page);
 	}
 
 	private Page<Post> findByKeywords(Set<String> keywords, Pageable page) {
-		// TODO Auto-generated method stub
 		List<PostKeyword> postKeywords = postKeywordDAO.findByValueIn(keywords);
 		Set<Long> postIds = new HashSet<>();
 		for (PostKeyword postKeyword : postKeywords) {
@@ -102,7 +100,6 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private PostFindResDTO buildPostFindResDTO(Page<Post> page, DWZPage dwzPage) throws Exception {
-		// TODO Auto-generated method stub
 		List<Post> posts = page.getContent();
 		List<PostDTO> postDTOs = new ArrayList<>();
 		for (Post post : posts) {
@@ -120,7 +117,6 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public PostDeleteResDTO deletePost(PostDeleteReqDTO req) throws Exception {
-		// TODO Auto-generated method stub
 		Post post = postDAO.findOne(req.getId());
 		post.setExpired(true);
 		postDAO.save(post);
@@ -129,13 +125,24 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostGetResDTO getPost(PostGetReqDTO req) throws Exception {
-		// TODO Auto-generated method stub
-		Post post = postDAO.getOne(req.getId());
+		Post post = postDAO.findOne(req.getId());
 		PostGetResDTO response = BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostGetResDTO.class);
 		response.setPost(new PostDTO(post.getId(), post.getValue()));
 		return response;
 	}
-
+	
+	@Transactional
+	@Override
+	public PostUpdateResDTO updatePost(PostUpdateReqDTO req) throws Exception {
+		PostDeleteResDTO delete = deletePost(req.getPostDeleteReq());
+		PostCreateResDTO create = savePost(req.getPostCreateReq());
+		if (delete.isSuccess() && create.isSuccess()) {
+			return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostUpdateResDTO.class);
+		} else {
+			return BaseResponseDTO.buildResponse(ResponseEnum.ERROR_20, PostUpdateResDTO.class);
+		}
+	}
+	
 	private static final ThreadLocalRandom RAN = ThreadLocalRandom.current();
 
 }

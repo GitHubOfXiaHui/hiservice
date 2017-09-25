@@ -16,6 +16,8 @@ import com.bupt.clientsdk.dto.post.PostFindReqDTO;
 import com.bupt.clientsdk.dto.post.PostFindResDTO;
 import com.bupt.clientsdk.dto.post.PostGetReqDTO;
 import com.bupt.clientsdk.dto.post.PostGetResDTO;
+import com.bupt.clientsdk.dto.post.PostUpdateReqDTO;
+import com.bupt.clientsdk.dto.post.PostUpdateResDTO;
 import com.bupt.hiservice.service.post.PostService;
 
 @RestController
@@ -47,6 +49,12 @@ public class PostController {
 	@ResponseStatus(HttpStatus.OK)
 	public PostGetResDTO get(@RequestBody PostGetReqDTO req) throws Exception {
 		return postService.getPost(req);
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public PostUpdateResDTO update(@RequestBody PostUpdateReqDTO req) throws Exception {
+		return postService.updatePost(req);
 	}
 	
 }

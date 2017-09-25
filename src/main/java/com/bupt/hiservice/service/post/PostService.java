@@ -8,6 +8,8 @@ import com.bupt.clientsdk.dto.post.PostFindReqDTO;
 import com.bupt.clientsdk.dto.post.PostFindResDTO;
 import com.bupt.clientsdk.dto.post.PostGetReqDTO;
 import com.bupt.clientsdk.dto.post.PostGetResDTO;
+import com.bupt.clientsdk.dto.post.PostUpdateReqDTO;
+import com.bupt.clientsdk.dto.post.PostUpdateResDTO;
 
 public interface PostService {
 
@@ -18,5 +20,7 @@ public interface PostService {
 	PostDeleteResDTO deletePost(PostDeleteReqDTO req) throws Exception;
 
 	PostGetResDTO getPost(PostGetReqDTO req) throws Exception;
+
+	PostUpdateResDTO updatePost(PostUpdateReqDTO req) throws Exception;
 
 }
