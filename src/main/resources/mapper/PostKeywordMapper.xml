@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.bupt.hiservice.dao.post.PostKeyword">
+
+	<resultMap id="postKeyword" type="PostKeyword">
+		<id property="id" column="id" jdbcType="BIGINT" />
+		<result property="keyword" column="keyword" />
+		<result property="postId" column="post_id" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="allProperty">
+		id, keyword, post_id
+	</sql>
+
+	<insert id="saveAllPostKeyword" useGeneratedKeys="true"
+		keyProperty="id" parameterType="list">
+		insert into post_keyword(keyword, post_id) values
+		<foreach collection="list" item="postKeyword" separator=","
+			close=";">
+			(#{postKeyword.keyword}, #{postKeyword.postId})
+		</foreach>
+	</insert>
+
+	<select id="findByValueIn" resultMap="postKeyword">
+		select <include refid="allProperty" />
+		from post_keyword_mem
+		where keyword in #{keywords};
+	</select>
+	
+</mapper>

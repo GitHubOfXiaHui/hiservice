@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.bupt.hiservice.dao.post.Post">
+
+	<resultMap id="post" type="Post">
+		<id property="id" column="id" jdbcType="BIGINT" />
+		<result property="text" column="text" />
+	</resultMap>
+	
+	<sql id="addProperty">
+		id, text
+	</sql>
+
+	<insert id="savePost" useGeneratedKeys="true" keyProperty="id"
+		parameterType="Post">
+		insert into post(text) values(#{text});
+	</insert>
+	
+	<select id="findByIds" resultMap="post">
+		select <include refid="addProperty" />
+		from post
+		where id in #{ids};
+	</select>
+	
+	<select id="findByIds" resultMap="post">
+		select <include refid="addProperty" />
+		from post
+		where id in #{ids}
+		limit ;
+	</select>
+	
+</mapper>

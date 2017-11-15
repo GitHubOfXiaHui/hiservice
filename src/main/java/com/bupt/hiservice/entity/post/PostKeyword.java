@@ -1,35 +1,38 @@
 package com.bupt.hiservice.entity.post;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class PostKeyword {
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.bupt.hiservice.entity.Keyword;
-
-@Entity
-@Table(name = "post_keyword")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "com.bupt.hiservice.entity.post")
-public class PostKeyword extends Keyword {
-
-	private static final long serialVersionUID = -3307129124410202083L;
-
-	@Column(name = "post_id")
+	private Long id;
+	private String keyword;
 	private Long postId;
-
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
 	public Long getPostId() {
 		return postId;
 	}
-
+	
 	public void setPostId(Long postId) {
 		this.postId = postId;
 	}
 
 	@Override
 	public String toString() {
-		return "PostKeyword [postId=" + postId + ", value=" + value + ", salt=" + salt + ", id=" + id + "]";
+		return "PostKeyword [id=" + id + ", keyword=" + keyword + ", postId=" + postId + "]";
 	}
 
 }

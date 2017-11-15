@@ -1,13 +1,17 @@
 package com.bupt.hiservice.dao;
 
 import java.util.List;
+import java.util.Set;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.bupt.hiservice.entity.post.PostKeyword;
 
-public interface PostKeywordDAO extends JpaRepository<PostKeyword, Long> {
+@Mapper
+public interface PostKeywordDAO {
 
-	List<PostKeyword> findByValueIn(Iterable<String> values);
-	
+	void saveAllPostKeyword(List<PostKeyword> postKeywords);
+
+	List<PostKeyword> findByKeywordIn(Set<String> keywords);
+
 }

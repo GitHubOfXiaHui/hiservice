@@ -1,23 +1,29 @@
 package com.bupt.hiservice.entity.post;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.bupt.hiservice.entity.Text;
-
-@Entity
-@Table(name = "post")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "com.bupt.hiservice.entity.post")
-public class Post extends Text {
-
-	private static final long serialVersionUID = -3083813214468856573L;
+public class Post {
+	
+	private Long id;
+	private String text;
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getText() {
+		return text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	@Override
 	public String toString() {
-		return "Post [value=" + value + ", id=" + id + "]";
+		return "Post [id=" + id + ", text=" + text + "]";
 	}
-
+	
 }

@@ -51,20 +51,19 @@ public class PostServiceImpl implements PostService {
 	public PostCreateResDTO savePost(PostCreateReqDTO req) throws Exception {
 		// 保存帖子
 		Post post = new Post();
-		post.setValue(req.getPost().getText());
-		post = postDAO.saveAndFlush(post);
+		post.setText(req.getPost().getText());
+		Long postId = postDAO.savePost(post);
 
 		// 保存帖子关键词索引
 		Set<KeywordDTO> keywords = req.getKeywords();
-		Collection<PostKeyword> postKeywords = new ArrayList<>();
+		List<PostKeyword> postKeywords = new ArrayList<>();
 		for (KeywordDTO keyword : keywords) {
 			PostKeyword postKeyword = new PostKeyword();
-			postKeyword.setValue(keyword.getValue());
-			postKeyword.setSalt(RAN.nextInt());
-			postKeyword.setPostId(post.getId() ^ postKeyword.getSalt());
+			postKeyword.setKeyword(keyword.getValue());
+			postKeyword.setPostId(postId);
 			postKeywords.add(postKeyword);
 		}
-		postKeywordDAO.save(postKeywords);
+		postKeywordDAO.saveAllPostKeyword(postKeywords);
 		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostCreateResDTO.class);
 	}
 
@@ -87,10 +86,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Page<Post> findByKeywords(Set<String> keywords, Pageable page) {
-		List<PostKeyword> postKeywords = postKeywordDAO.findByValueIn(keywords);
+		List<PostKeyword> postKeywords = postKeywordDAO.findByKeywordIn(keywords);
 		Set<Long> postIds = new HashSet<>();
 		for (PostKeyword postKeyword : postKeywords) {
-			postIds.add(postKeyword.getPostId() ^ postKeyword.getSalt());
+			postIds.add(postKeyword.getPostId());
 		}
 		if (!postIds.isEmpty()) {
 			return postDAO.findByIds(postIds, page);
@@ -143,6 +142,4 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 	
-	private static final ThreadLocalRandom RAN = ThreadLocalRandom.current();
-
 }
