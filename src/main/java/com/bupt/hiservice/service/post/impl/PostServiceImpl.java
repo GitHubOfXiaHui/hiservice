@@ -1,11 +1,9 @@
 package com.bupt.hiservice.service.post.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,20 +49,18 @@ public class PostServiceImpl implements PostService {
 	public PostCreateResDTO savePost(PostCreateReqDTO req) throws Exception {
 		// 保存帖子
 		Post post = new Post();
-		post.setValue(req.getPost().getText());
-		post = postDAO.saveAndFlush(post);
+		post.setText(req.getPost().getText());
 
 		// 保存帖子关键词索引
 		Set<KeywordDTO> keywords = req.getKeywords();
-		Collection<PostKeyword> postKeywords = new ArrayList<>();
+		Set<PostKeyword> postKeywords = post.getPostKeywords();
 		for (KeywordDTO keyword : keywords) {
 			PostKeyword postKeyword = new PostKeyword();
-			postKeyword.setValue(keyword.getValue());
-			postKeyword.setSalt(RAN.nextInt());
-			postKeyword.setPostId(post.getId() ^ postKeyword.getSalt());
+			postKeyword.setKeyword(keyword.getValue());
+			postKeyword.setPost(post);
 			postKeywords.add(postKeyword);
 		}
-		postKeywordDAO.save(postKeywords);
+		postDAO.save(post);
 		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostCreateResDTO.class);
 	}
 
@@ -87,13 +83,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Page<Post> findByKeywords(Set<String> keywords, Pageable page) {
-		List<PostKeyword> postKeywords = postKeywordDAO.findByValueIn(keywords);
+		List<PostKeyword> postKeywords = postKeywordDAO.findByKeywordIn(keywords);
 		Set<Long> postIds = new HashSet<>();
 		for (PostKeyword postKeyword : postKeywords) {
-			postIds.add(postKeyword.getPostId() ^ postKeyword.getSalt());
+			postIds.add(postKeyword.getPost().getId());
 		}
 		if (!postIds.isEmpty()) {
-			return postDAO.findByIds(postIds, page);
+			return postDAO.findByIdIn(postIds, page);
 		} else {
 			return new PageImpl<Post>(new ArrayList<>());
 		}
@@ -103,7 +99,7 @@ public class PostServiceImpl implements PostService {
 		List<Post> posts = page.getContent();
 		List<PostDTO> postDTOs = new ArrayList<>();
 		for (Post post : posts) {
-			PostDTO postDTO = new PostDTO(post.getId(), post.getValue());
+			PostDTO postDTO = new PostDTO(post.getId(), post.getText());
 			postDTOs.add(postDTO);
 		}
 		PageUtils.injectPageProperties(dwzPage, page);
@@ -117,9 +113,7 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public PostDeleteResDTO deletePost(PostDeleteReqDTO req) throws Exception {
-		Post post = postDAO.findOne(req.getId());
-		post.setExpired(true);
-		postDAO.save(post);
+		postDAO.delete(req.getId());
 		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostDeleteResDTO.class);
 	}
 
@@ -127,7 +121,7 @@ public class PostServiceImpl implements PostService {
 	public PostGetResDTO getPost(PostGetReqDTO req) throws Exception {
 		Post post = postDAO.findOne(req.getId());
 		PostGetResDTO response = BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostGetResDTO.class);
-		response.setPost(new PostDTO(post.getId(), post.getValue()));
+		response.setPost(new PostDTO(post.getId(), post.getText()));
 		return response;
 	}
 	
@@ -143,6 +137,4 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 	
-	private static final ThreadLocalRandom RAN = ThreadLocalRandom.current();
-
 }
