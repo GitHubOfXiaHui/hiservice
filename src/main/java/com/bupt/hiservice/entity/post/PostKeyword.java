@@ -43,6 +43,37 @@ public class PostKeyword extends IdLongEntity {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
+		result = prime * result + ((post == null) ? 0 : post.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PostKeyword other = (PostKeyword) obj;
+		if (keyword == null) {
+			if (other.keyword != null)
+				return false;
+		} else if (!keyword.equals(other.keyword))
+			return false;
+		if (post == null) {
+			if (other.post != null)
+				return false;
+		} else if (!post.equals(other.post))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "PostKeyword [keyword=" + keyword + ", post=" + post + ", id=" + id + "]";
 	}
