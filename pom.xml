@@ -104,6 +104,13 @@
 			<version>4.1.7.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Add Web3j -->
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

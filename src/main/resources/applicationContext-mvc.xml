@@ -19,4 +19,8 @@
 	<!-- 开启mvc注解扫描 -->
 	<mvc:annotation-driven />
 
+	<mvc:interceptors>
+		<bean class="com.bupt.hiservice.interceptor.ValidateInterceptor" />
+	</mvc:interceptors>
+
 </beans>
