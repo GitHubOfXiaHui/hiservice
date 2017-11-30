@@ -2,9 +2,6 @@ package com.bupt.hiservice.entity.post;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -22,9 +19,8 @@ public class PostKeyword extends IdLongEntity {
 	@Column
 	private String keyword;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_id")
-	private Post post;
+	@Column(name = "post_id")
+	private Long postId;
 
 	public String getKeyword() {
 		return keyword;
@@ -34,20 +30,20 @@ public class PostKeyword extends IdLongEntity {
 		this.keyword = keyword;
 	}
 
-	public Post getPost() {
-		return post;
+	public Long getPostId() {
+		return postId;
 	}
 
-	public void setPost(Post post) {
-		this.post = post;
+	public void setPostId(Long postId) {
+		this.postId = postId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
-		result = prime * result + ((post == null) ? 0 : post.hashCode());
+		result = prime * result + ((postId == null) ? 0 : postId.hashCode());
 		return result;
 	}
 
@@ -55,7 +51,7 @@ public class PostKeyword extends IdLongEntity {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -65,17 +61,17 @@ public class PostKeyword extends IdLongEntity {
 				return false;
 		} else if (!keyword.equals(other.keyword))
 			return false;
-		if (post == null) {
-			if (other.post != null)
+		if (postId == null) {
+			if (other.postId != null)
 				return false;
-		} else if (!post.equals(other.post))
+		} else if (!postId.equals(other.postId))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "PostKeyword [keyword=" + keyword + ", post=" + post + ", id=" + id + "]";
+		return "PostKeyword [keyword=" + keyword + ", postId=" + postId + ", id=" + id + "]";
 	}
-	
+
 }

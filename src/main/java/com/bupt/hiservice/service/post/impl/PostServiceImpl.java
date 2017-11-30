@@ -50,17 +50,18 @@ public class PostServiceImpl implements PostService {
 		// 保存帖子
 		Post post = new Post();
 		post.setText(req.getPost().getText());
+		post = postDAO.save(post);
 
 		// 保存帖子关键词索引
 		Set<KeywordDTO> keywords = req.getKeywords();
-		Set<PostKeyword> postKeywords = post.getPostKeywords();
+		Set<PostKeyword> postKeywords = new HashSet<>();
 		for (KeywordDTO keyword : keywords) {
 			PostKeyword postKeyword = new PostKeyword();
 			postKeyword.setKeyword(keyword.getValue());
-			postKeyword.setPost(post);
+			postKeyword.setPostId(post.getId());
 			postKeywords.add(postKeyword);
 		}
-		postDAO.save(post);
+		postKeywordDAO.save(postKeywords);
 		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostCreateResDTO.class);
 	}
 
@@ -86,7 +87,7 @@ public class PostServiceImpl implements PostService {
 		List<PostKeyword> postKeywords = postKeywordDAO.findByKeywordIn(keywords);
 		Set<Long> postIds = new HashSet<>();
 		for (PostKeyword postKeyword : postKeywords) {
-			postIds.add(postKeyword.getPost().getId());
+			postIds.add(postKeyword.getPostId());
 		}
 		if (!postIds.isEmpty()) {
 			return postDAO.findByIdIn(postIds, page);

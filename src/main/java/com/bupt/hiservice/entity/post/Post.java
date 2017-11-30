@@ -1,14 +1,8 @@
 package com.bupt.hiservice.entity.post;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -26,9 +20,6 @@ public class Post extends IdLongEntity {
 	@Lob
 	@Column(columnDefinition = "TEXT")
 	private String text;
-	
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<PostKeyword> postKeywords = new HashSet<>();
 
 	public String getText() {
 		return text;
@@ -36,14 +27,6 @@ public class Post extends IdLongEntity {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public Set<PostKeyword> getPostKeywords() {
-		return postKeywords;
-	}
-
-	public void setPostKeywords(Set<PostKeyword> postKeywords) {
-		this.postKeywords = postKeywords;
 	}
 
 	@Override
