@@ -2,14 +2,6 @@ package com.bupt.hiservice.blockchain;
 
 import java.io.ByteArrayOutputStream;
 
-/**
-* @author:mc 
-* @Email:983771387@qq.com
-* @version: V1.0.0 
-* @createTime：2017年9月4日 下午4:16:56
-* @introduction:
-*/
-
 public class HexTransformUtil {
 
 	private static String hexString = "0123456789abcdef";

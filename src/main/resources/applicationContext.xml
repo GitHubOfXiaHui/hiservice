@@ -7,14 +7,11 @@
          http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-	<context:component-scan base-package="com.bupt.client">
+	<context:component-scan base-package="com.bupt.hiservice">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
-
-	<!-- 属性占位符配置器 -->
-	<context:property-placeholder location="classpath:dataSource.properties" />
 
 </beans>

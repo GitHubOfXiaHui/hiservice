@@ -114,7 +114,9 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public PostDeleteResDTO deletePost(PostDeleteReqDTO req) throws Exception {
-		postDAO.delete(req.getId());
+		Long postId = req.getId();
+		postKeywordDAO.deleteByPostId(postId);
+		postDAO.delete(postId);
 		return BaseResponseDTO.buildResponse(ResponseEnum.SUCCESS, PostDeleteResDTO.class);
 	}
 

@@ -18,6 +18,7 @@ import com.bupt.clientsdk.dto.post.PostGetReqDTO;
 import com.bupt.clientsdk.dto.post.PostGetResDTO;
 import com.bupt.clientsdk.dto.post.PostUpdateReqDTO;
 import com.bupt.clientsdk.dto.post.PostUpdateResDTO;
+import com.bupt.hiservice.aspect.UserValidation;
 import com.bupt.hiservice.service.post.PostService;
 
 @RestController
@@ -27,34 +28,39 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 
+	@UserValidation
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public PostCreateResDTO create(@RequestBody PostCreateReqDTO req) throws Exception {
 		return postService.savePost(req);
 	}
 
-	@RequestMapping(value = "/find", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	public PostFindResDTO find(@RequestBody PostFindReqDTO req) throws Exception {
-		return postService.findPosts(req);
-	}
-	
+	@UserValidation
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public PostDeleteResDTO delete(@RequestBody PostDeleteReqDTO req) throws Exception {
 		return postService.deletePost(req);
 	}
 	
-	@RequestMapping(value = "/get", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	public PostGetResDTO get(@RequestBody PostGetReqDTO req) throws Exception {
-		return postService.getPost(req);
-	}
-	
+	@UserValidation
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public PostUpdateResDTO update(@RequestBody PostUpdateReqDTO req) throws Exception {
 		return postService.updatePost(req);
+	}
+	
+	@UserValidation
+	@RequestMapping(value = "/find", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public PostFindResDTO find(@RequestBody PostFindReqDTO req) throws Exception {
+		return postService.findPosts(req);
+	}
+	
+	@UserValidation
+	@RequestMapping(value = "/get", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public PostGetResDTO get(@RequestBody PostGetReqDTO req) throws Exception {
+		return postService.getPost(req);
 	}
 	
 }
