@@ -6,6 +6,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 只能使用在如下方法，该方法有唯一参数，类型为BaseRequestDTO及其子类，返回值类型为BaseResponseDTO及其子类
+ * 
+ * @author Administrator
+ *
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
