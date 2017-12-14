@@ -1,5 +1,7 @@
 package com.bupt.hiservice.entity.post;
 
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -20,7 +22,7 @@ public class PostKeyword extends BaseEntity {
 	private String keyword;
 
 	@Column(name = "post_id")
-	private Long postId;
+	private BigInteger postId;
 
 	public String getKeyword() {
 		return keyword;
@@ -30,11 +32,11 @@ public class PostKeyword extends BaseEntity {
 		this.keyword = keyword;
 	}
 
-	public Long getPostId() {
+	public BigInteger getPostId() {
 		return postId;
 	}
 
-	public void setPostId(Long postId) {
+	public void setPostId(BigInteger postId) {
 		this.postId = postId;
 	}
 

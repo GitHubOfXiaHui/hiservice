@@ -1,5 +1,6 @@
 package com.bupt.hiservice.service.post.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +59,7 @@ public class PostServiceImpl implements PostService {
 		for (KeywordDTO keyword : keywords) {
 			PostKeyword postKeyword = new PostKeyword();
 			postKeyword.setKeyword(keyword.getValue());
-			postKeyword.setPostId(post.getId());
+			postKeyword.setPostId(BigInteger.valueOf(post.getId()));
 			postKeywords.add(postKeyword);
 		}
 		postKeywordDAO.save(postKeywords);
@@ -84,10 +85,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Page<Post> findByKeywords(Set<String> keywords, Pageable page) {
-		List<PostKeyword> postKeywords = postKeywordDAO.findByKeywordIn(keywords);
+		List<BigInteger> postBigIds = postKeywordDAO.findPostIdByKeywordIn(keywords);
 		Set<Long> postIds = new HashSet<>();
-		for (PostKeyword postKeyword : postKeywords) {
-			postIds.add(postKeyword.getPostId());
+		for (BigInteger id : postBigIds) {
+			postIds.add(id.longValue());
 		}
 		if (!postIds.isEmpty()) {
 			return postDAO.findByIdIn(postIds, page);

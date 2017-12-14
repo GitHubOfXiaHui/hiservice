@@ -1,5 +1,6 @@
 package com.bupt.hiservice.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,8 +12,8 @@ import com.bupt.hiservice.entity.post.PostKeyword;
 
 public interface PostKeywordDAO extends JpaRepository<PostKeyword, Long> {
 
-	@Query(value = "select * from post_keyword_mem where keyword in ?1", nativeQuery = true)
-	List<PostKeyword> findByKeywordIn(Iterable<String> keywords);
+	@Query(value = "select post_id from post_keyword_mem where keyword in ?1", nativeQuery = true)
+	List<BigInteger> findPostIdByKeywordIn(Iterable<String> keywords);
 
 	@Transactional
 	@Modifying
