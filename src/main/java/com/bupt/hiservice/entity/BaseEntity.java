@@ -22,16 +22,16 @@ public abstract class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-//	@Column(name = "create_time")
-//	protected Timestamp createTime;
-//
-//	@Column(name = "last_modified")
-//	protected Timestamp lastModified;
-//
-//	@Lob
-//	@Basic(fetch = FetchType.LAZY)
-//	@Column(columnDefinition = "TEXT")
-//	protected String extension;
+	@Column(name = "create_time")
+	protected Timestamp createTime;
+
+	@Column(name = "last_modified")
+	protected Timestamp lastModified;
+
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(columnDefinition = "TEXT")
+	protected String extension;
 
 	public Long getId() {
 		return id;
@@ -41,28 +41,28 @@ public abstract class BaseEntity implements Serializable {
 		this.id = id;
 	}
 
-//	public Timestamp getCreateTime() {
-//		return createTime;
-//	}
-//
-//	public void setCreateTime(Timestamp createTime) {
-//		this.createTime = createTime;
-//	}
-//
-//	public Timestamp getLastModified() {
-//		return lastModified;
-//	}
-//
-//	public void setLastModified(Timestamp lastModified) {
-//		this.lastModified = lastModified;
-//	}
-//
-//	public String getExtension() {
-//		return extension;
-//	}
-//
-//	public void setExtension(String extension) {
-//		this.extension = extension;
-//	}
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
+	public Timestamp getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Timestamp lastModified) {
+		this.lastModified = lastModified;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 
 }
