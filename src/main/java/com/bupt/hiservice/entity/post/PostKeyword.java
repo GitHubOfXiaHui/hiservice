@@ -7,12 +7,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.bupt.hiservice.entity.IdLongEntity;
+import com.bupt.hiservice.entity.BaseEntity;
 
 @Entity
 @Table(name = "post_keyword")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "com.bupt.hiservice.entity.post")
-public class PostKeyword extends IdLongEntity {
+public class PostKeyword extends BaseEntity {
 
 	private static final long serialVersionUID = -3307129124410202083L;
 

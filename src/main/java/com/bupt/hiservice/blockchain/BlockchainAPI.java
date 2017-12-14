@@ -14,7 +14,7 @@ public abstract class BlockchainAPI {
 	private static String baseUrl = "http://192.168.1.112:8545/";
 	private static Web3j web3 = Web3j.build(new HttpService(baseUrl));
 
-	public static String SendTransaction(String data) throws IOException {
+	public static String sendTransaction(String data) throws IOException {
 		String createAccount = "0xde41f23e334245b9e28d035e0fb7f700ca332d36";
 		Transaction transaction = new Transaction(createAccount, new BigInteger("16000"), new BigInteger("20000000000"),
 				new BigInteger("4300000"), null, new BigInteger("0"), data);
